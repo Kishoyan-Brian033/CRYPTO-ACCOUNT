@@ -1,0 +1,88 @@
+body {
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Send it behind the content */
+}
+.wallet {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+    text-align: center;
+    height: 500px;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+.header {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.balance {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.actions button {
+    background: 
+    
+    #184e18 ;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tabs {
+    margin-top: 15px;
+}
+
+.tabs span {
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.active {
+    border-bottom: 2px solid white;
+}
+
+.crypto-list {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.crypto-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #333;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.crypto-item img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.crypto-name {
+    font-weight: bold;
+}
+
+.crypto-value {
+    font-weight: bold;
+}

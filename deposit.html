@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Funds</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2ecc71;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .deposit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input[type="number"],select:focus {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #2ecc71;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #27ae60;
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Deposit USD Funds</h2>
+        
+        <div class="deposit-form">
+            <input type="number" id="depositAmount" placeholder="Enter deposit amount ($)" min="1">
+            <select name="acount" id="account">
+                <option value="">Paypal</option>   
+                <option value="">crypto</option>
+               <option value="">Bank Account</option></select>
+            <button onclick="processDeposit()">Deposit Funds</button>
+            <a href="home.html" class="home-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function processDeposit() {
+            const amountInput = document.getElementById('depositAmount');
+            const amount = parseFloat(amountInput.value);
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount!");
+                return;
+            }
+
+            // Get current balance from localStorage
+            let currentBalance = parseFloat(localStorage.getItem('walletBalance')) || 0;
+            
+            // Update balance
+            const newBalance = currentBalance + amount;
+            localStorage.setItem('walletBalance', newBalance.toFixed(2));
+
+            // Redirect to home page after deposit
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

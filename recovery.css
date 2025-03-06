@@ -1,0 +1,100 @@
+/* Matrix Green Theme */
+body {
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Send it behind the content */
+}
+
+/* Container Styling */
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px #00ff00;
+}
+#walletModal button {
+    padding: 10px 20px;
+    background: #00ff00;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+}
+
+#walletModal input {
+    padding: 8px;
+    background: #333;
+    border: 1px solid #00ff00;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#start:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+/* Input Fields */
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Button */
+button {
+    background-color: #00ff00;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #008000;
+}
+
+/* Status Message */
+.status {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Alert Box */
+#customAlert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: red;
+    color: white;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.9);
+    display: none; /* Hidden initially */
+    z-index: 9999;
+    text-transform: uppercase;
+}

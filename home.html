@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Wallet</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wallet">
+        <!-- Header -->
+        <div class="header">
+            <span class="address">Address 1 ▼</span>
+        </div>
+
+        <!-- Balance -->
+        <div class="balance">$<span id="balance">0.000</span></div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <a href="buy.html"><button class="btn">Buy</button></a>
+            <a href="recovery.html"><button class="btn">Recovery</button></a>
+            <a href="deposit.html"><button class="btn">Deposit</button></a>
+            <a href="index.html"><button class="btn">Sign up</button></a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <span class="tab active" data-tab="crypto">Crypto</span>
+            <span class="tab" data-tab="nfts">NFTs</span>
+            <span class="tab" data-tab="defi">DeFi</span>
+        </div>
+
+        <!-- Crypto List -->
+        <div class="content" id="crypto">
+            <div class="crypto-item">
+                <img src="btc-logo.png" alt="Bitcoin">
+                <div class="crypto-info">
+                    <span class="crypto-name">Bitcoin</span>
+                    <span class="crypto-amount">0.001 BTC</span>
+                </div>
+                <span class="crypto-value">$<span id="btcBalance">0.000</span></span>
+            </div>
+
+            <div class="crypto-item">
+                <img src="usdc.jpg" alt="USDC">
+                <div class="crypto-info">
+                    <span class="crypto-name">USDC</span>
+                    <span class="crypto-amount">100 USDC</span>
+                </div>
+                <span class="crypto-value">$<span id="usdcBalance">0.000</span></span>
+            </div>
+
+            <div class="crypto-item">
+                <img src="null.png" alt="Saffron Finance">
+                <div class="crypto-info">
+                    <span class="crypto-name">Saffron Finance</span>
+                    <span class="crypto-amount">1,000 SFI</span>
+                </div>
+                <span class="crypto-value">$<span id="saffronBalance">0.000</span></span>
+            </div>
+        </div>
+
+        
+        <div class="content hidden" id="nfts">
+            <div class="crypto-item">
+                <img src="nft.jpg" alt="NFT 1">
+                <div class="crypto-info">
+                    <span class="crypto-name">NFT 1</span>
+                    <span class="crypto-amount">1 NFT</span>
+                </div>
+                <span class="crypto-value">$<span id="nft1Balance">0.000</span></span>
+            </div>
+        </div>
+
+        
+        <div class="content hidden" id="defi">
+            <div class="crypto-item">
+                <img src="btc-logo.png" alt="DeFi 1">
+                <div class="crypto-info">
+                    <span class="crypto-name">DeFi 1</span>
+                    <span class="crypto-amount">100 Tokens</span>
+                </div>
+                <span class="crypto-value">$<span id="defi1Balance">0.000</span></span>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+   
+    let savedBalance = localStorage.getItem("walletBalance") || "0.000";
+    document.getElementById("balance").textContent = parseFloat(savedBalance).toFixed(2);
+    document.getElementById("btcBalance").textContent = parseFloat(savedBalance).toFixed(2);
+    document.getElementById("usdcBalance").textContent = parseFloat(savedBalance).toFixed(2);
+    document.getElementById("saffronBalance").textContent = parseFloat(savedBalance).toFixed(2);
+    document.getElementById("nft1Balance").textContent = parseFloat(savedBalance).toFixed(2);
+    document.getElementById("defi1Balance").textContent = parseFloat(savedBalance).toFixed(2);
+
+    
+    const tabs = document.querySelectorAll(".tab");
+    const contents = document.querySelectorAll(".content");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", function () {
+          
+            tabs.forEach(t => t.classList.remove("active"));
+            contents.forEach(c => c.classList.remove("active"));
+
+            
+            this.classList.add("active");
+            const tabId = this.getAttribute("data-tab");
+            document.getElementById(tabId).classList.add("active");
+        });
+    });
+});
+    </script>
+</body>
+</html>

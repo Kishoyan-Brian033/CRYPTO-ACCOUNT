@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Cryptocurrency</title>
+    <link rel="stylesheet" href="buy.css">
+    <style>
+        body{
+            background: url(back2.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .confirmation-modal p{
+            color: black;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .confirm-btn {
+            background: #4CAF50;
+            color: #333;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: #f44336;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      (function() { emailjs.init("eUIUuiJ0t_m_cB0Wn"); })();
+    </script>
+</head>
+<body>
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <h3>Confirm Purchase</h3>
+            <p>Are you sure you want to buy <span id="modalCryptoAmount">0</span> <span id="modalCryptoType">BTC</span>?</p>
+            <div class="modal-buttons">
+                <button class="confirm-btn" id="confirmPurchase">Confirm</button>
+                <button class="cancel-btn" id="cancelPurchase">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Buy Cryptocurrency</h2>
+
+        <!-- Form Inputs -->
+        <label for="addressKey">🔑 Address Key</label>
+        <input type="text" id="addressKey" placeholder="Enter Address Key" required>
+
+        <label for="email">📧 Email</label>
+        <input type="email" id="email" placeholder="Enter your Email" required>
+
+        <label for="crypto">💰 Select Cryptocurrency</label>
+        <select id="crypto">
+            <option value="BTC" data-rate="60000">Bitcoin (🪙BTC)</option>
+            <option value="ETH" data-rate="3500">Ethereum (💴ETH)</option>
+            <option value="SFI" data-rate="54.47">Saffron Finance (🧧SFI)</option>
+        </select>
+
+        <label for="amount">💲 Enter Amount (USD)</label>
+        <input type="number" id="amount" placeholder="Enter USD amount" required>
+
+        <!-- Conversion & Balance Display -->
+        <div class="conversion">
+            <p>You will get: <span id="cryptoAmount">0</span> <span id="selectedCrypto">BTC</span></p>
+            <p>Current Balance: $<span id="currentBalance">0.00</span></p>
+        </div>
+
+        <button id="buyNow">Buy Now</button>
+        <a href="home.html"><button >Back</button></a>
+
+
+        <!-- Confirmation Section -->
+        <div id="confirmation" style="display: none; margin-top: 20px; padding: 15px; background: #333;color: aliceblue;">
+            <h3>Purchase Confirmation</h3>
+            <p>🔑 Address Key: <span id="confirmAddressKey"></span></p>
+            <p>📧 Email: <span id="confirmEmail"></span></p>
+            <p>💰 Cryptocurrency: <span id="confirmCrypto"></span></p>
+            <p>💲 Amount: $<span id="confirmAmount"></span></p>
+            <p>📊 Updated Balance: $<span id="confirmBalance"></span></p>
+        </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Initialize elements
+        const elements = {
+          cryptoSelect: document.getElementById("crypto"),
+          amountInput: document.getElementById("amount"),
+          addressKeyInput: document.getElementById("addressKey"),
+          emailInput: document.getElementById("email"),
+          cryptoAmountDisplay: document.getElementById("cryptoAmount"),
+          selectedCryptoDisplay: document.getElementById("selectedCrypto"),
+          buyNowButton: document.getElementById("buyNow"),
+          currentBalanceDisplay: document.getElementById("currentBalance"),
+          confirmationSection: document.getElementById("confirmation"),
+          confirmationModal: document.getElementById("confirmationModal"),
+          confirmPurchaseBtn: document.getElementById("confirmPurchase"),
+          cancelPurchaseBtn: document.getElementById("cancelPurchase")
+        };
+
+        // Load initial balance
+        let currentBalance = parseFloat(localStorage.getItem("walletBalance")) || 0.00;
+        elements.currentBalanceDisplay.textContent = currentBalance.toFixed(2);
+
+        // Conversion Calculator
+        function updateConversion() {
+          const rate = parseFloat(elements.cryptoSelect.selectedOptions[0].dataset.rate);
+          const usdAmount = parseFloat(elements.amountInput.value) || 0;
+          elements.cryptoAmountDisplay.textContent = (usdAmount / rate).toFixed(4);
+          elements.selectedCryptoDisplay.textContent = elements.cryptoSelect.value;
+        }
+
+        // Buy Now Logic
+        elements.buyNowButton.addEventListener("click", function() {
+          // Validate first
+          if (!elements.addressKeyInput.value.trim() || 
+              !elements.emailInput.value.trim() || 
+              isNaN(parseFloat(elements.amountInput.value))) {
+            alert("Please fill in all fields correctly!");
+            return;
+          }
+
+          // Show confirmation modal
+          elements.confirmationModal.style.display = "flex";
+          
+          // Update modal content
+          document.getElementById("modalCryptoAmount").textContent = 
+              elements.cryptoAmountDisplay.textContent;
+          document.getElementById("modalCryptoType").textContent = 
+              elements.cryptoSelect.value;
+        });
+
+        // Confirm Purchase Handler
+        elements.confirmPurchaseBtn.addEventListener("click", function() {
+          const purchaseData = {
+            addressKey: elements.addressKeyInput.value.trim(),
+            email: elements.emailInput.value.trim(),
+            crypto: elements.cryptoSelect.value,
+            amount: parseFloat(elements.amountInput.value),
+            balance: currentBalance + parseFloat(elements.amountInput.value)
+          };
+
+          // Update UI and Local Storage
+          currentBalance = purchaseData.balance;
+          localStorage.setItem("walletBalance", currentBalance.toFixed(2));
+          elements.currentBalanceDisplay.textContent = currentBalance.toFixed(2);
+
+          // Show Confirmation
+          document.getElementById("confirmAddressKey").textContent = purchaseData.addressKey;
+          document.getElementById("confirmEmail").textContent = purchaseData.email;
+          document.getElementById("confirmCrypto").textContent = purchaseData.crypto;
+          document.getElementById("confirmAmount").textContent = purchaseData.amount.toFixed(2);
+          document.getElementById("confirmBalance").textContent = currentBalance.toFixed(2);
+          elements.confirmationSection.style.display = "block";
+
+          // Hide modal
+          elements.confirmationModal.style.display = "none";
+
+          // Send Email
+          emailjs.send("service_p7lukke", "template_6xycfje", {
+            to_email: "giyananderson@gmail.com", // Recipient email
+            addressKey: purchaseData.addressKey,
+            email: purchaseData.email,
+            crypto: purchaseData.crypto,
+            amount: purchaseData.amount.toFixed(2),
+            balance: currentBalance.toFixed(2)
+          }).then(
+            () => console.log("Email sent successfully!"),
+            (error) => console.error("Email failed:", error)
+          );
+        });
+
+        // Cancel Purchase Handler
+        elements.cancelPurchaseBtn.addEventListener("click", function() {
+          elements.confirmationModal.style.display = "none";
+        });
+
+        // Event Listeners
+        elements.cryptoSelect.addEventListener("change", updateConversion);
+        elements.amountInput.addEventListener("input", updateConversion);
+        updateConversion();
+      });
+    </script>
+</body>
+</html>

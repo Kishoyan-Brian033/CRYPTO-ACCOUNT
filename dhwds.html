@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Recovery</title>
+    <link rel="stylesheet" href="recovery.css">
+</head>
+<body>
+    <div id="customAlert">❌ ACCESS DENIED ❌</div>
+
+    <div class="container">
+        <h2>Cryptocurrency Recovery</h2>
+
+        <label for="targetInput">Target:</label><br>
+        <input type="text" id="targetInput" placeholder="Enter Target Address">
+
+        <label for="databaseInput">Database:</label>
+        <input type="text" id="databaseInput" placeholder="USDT / Bitcoin">
+
+        <div class="attack-section">
+            <input type="text" id="keyInput" readonly>
+            <button id="start">Start Attack</button><br> <br>
+            <a href="home.html"><button>Back</button></a>
+        </div>
+
+        <p class="status">Waiting for command...</p>
+    </div>
+    
+    <!-- Sound Files -->
+    <audio id="typingSound" src="typing.mp3"></audio>
+    <audio id="failSound" src="fail.mp3"></audio>
+    <audio id="deniedSound" src="denied.mp3"></audio>
+    <audio id="successSound" src="success.mp3"></audio>
+    <script src="back.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
